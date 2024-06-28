@@ -62,12 +62,20 @@ const Allposts = () => {
 
     ) : (
       <ul>
-        {posts.map(post => (
-         <PostCard   
-           post={post}
-           userId={currentUser?.id}
-         />
-        ))}
+        
+          
+       
+     
+
+        {
+          posts.map((post,index)=>{
+            return<PostCard   
+            key={ index }
+              post={post}
+              userId={currentUser?.id}
+            />
+          })
+        }
       </ul>
     )}
   </div>
