@@ -43,6 +43,7 @@ const Signin = () => {
           title: res?.success,
         });
         router.push("/posts");
+        window.location.reload();
       } else if (res?.error) {
         setIsLoading(false);
         toast({
