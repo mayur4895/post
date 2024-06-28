@@ -34,6 +34,8 @@ model Post {
   likedByMe    Boolean   @default(false)
 }
 
+ 
+
 model Comment {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   content   String

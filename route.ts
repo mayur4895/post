@@ -6,10 +6,11 @@
  */
 
 export const publicRoutes = [
-  
+    "/",
     "/auth/new-verification",
     "/auth/new-password",
-    "/auth/reset" 
+    "/auth/reset"
+   
 ]
   
    
@@ -41,7 +42,7 @@ export const apiAuthprefix = "/api/auth"
  */
 
 
-export const DEFAULT_LOGIN_REDIRECT="/posts"
+export const DEFAULT_LOGIN_REDIRECT="/"
 
  
  

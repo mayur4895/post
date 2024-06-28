@@ -6,11 +6,7 @@ export async function GET() {
   const posts = await db.post.findMany({
     include: {
       author: true,
-      comments: {
-        include: {
-          author: true,
-        },
-      },
+      comments: true,
       likes:true
     },
   });
