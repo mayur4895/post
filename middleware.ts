@@ -1,7 +1,12 @@
 import { auth } from "./auth";
 import { AuthRoutes, apiAuthprefix, publicRoutes } from "./route";
+// Assuming types are defined in types/index.ts
+ 
+type NextAuthRequest = any;
+type AppRouteHandlerFnContext = any;
 
-export default auth(async (req: NextAuthRequest, ctx: AppRouteHandlerFnContext) => {
+
+export default auth(async (req: NextAuthRequest, ctx: AppRouteHandlerFnContext): Promise<void | Response> => {
     const { nextUrl, user } = req;
     const isLoggedIn = !!req.auth;
 
@@ -10,14 +15,14 @@ export default auth(async (req: NextAuthRequest, ctx: AppRouteHandlerFnContext) 
     const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
 
     if (isApiAuthRoute) {
-        return null;
+        return Response.redirect(new URL("/api-auth", nextUrl));
     }
 
     if (isAuthRoute) {
         if (isLoggedIn) {
             return Response.redirect(new URL("/posts", nextUrl));
         }
-        return null;
+        return Response.redirect(new URL("/auth/login", nextUrl));
     }
 
     if (!isLoggedIn && !isPublicRoute) {
