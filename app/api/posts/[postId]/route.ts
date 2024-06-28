@@ -45,8 +45,8 @@ export async function PATCH(req: Request, { params }: { params: { postId: string
   }
 }
 
-// DELETE endpoint for deleting a post
-export async function DELETE(req: NextApiRequest, { params }: { params: { postId: string } }) {
+ 
+export async function DELETE({ params }: { params: { postId: string } }) {
   try {
     if (!params?.postId) {
       return  NextResponse.json("postId not provided",{status:400}); 
