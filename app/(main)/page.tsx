@@ -5,15 +5,11 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 export default function Home() {
-const currentUser = CurrentUser();
- if(!currentUser){
-  redirect("/auth/login");
- }
-
- if(currentUser){
-  redirect("/posts")
- }
+ const router = useRouter();
+ 
   return (
-  <Button> </Button> 
+   <div className="item">
+    <Button onClik={()=>{router.push("/auth/signup")}}> Goto Signup</Button>
+   </div> 
   );
 }
