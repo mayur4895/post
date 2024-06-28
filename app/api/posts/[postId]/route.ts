@@ -10,8 +10,10 @@ const getSessionUser = async (req: NextApiRequest) => {
   return session?.user ?? null;
 };
 
-// PATCH endpoint for updating a post
-export async function PATCH(req: Request, { params }: { params: { postId: string } }) {
+ 
+export async function PATCH(req: Request, 
+  res:NextApiResponse,
+  { params }: { params: { postId: string } }) {
   try {
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get('userId');
