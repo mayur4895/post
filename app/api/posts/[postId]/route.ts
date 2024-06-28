@@ -40,7 +40,7 @@ export async function PATCH(req: Request,
       }
     });
 
-    return  NextResponse.json(user,{status:200}); 
+    return  NextResponse.json({user},{status:200}); 
   } catch (error) {
     console.error('Error updating post:', error);
     return { error: 'Internal Server Error', status: 500 };
