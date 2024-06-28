@@ -11,39 +11,40 @@ const getSessionUser = async (req: NextApiRequest) => {
 };
 
 // PATCH endpoint for updating a post
-export async function PATCH(req: Request, { params }: { params: { postId: string } }) {
+export async function PATCH(req: Request, res: NextResponse, { params }: { params: { postId: string } }) {
   try {
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get('userId');
+      const { searchParams } = new URL(req.url);
+      const userId = searchParams.get('userId');
 
-    const { title, content } = await req.json();
+      const { title, content } = await req.json();
 
-    if (!userId) {
-        return  NextResponse.json("userId not provided",{status:400}); 
-    }
-
-    if (!params?.postId) {
-        return  NextResponse.json("postId not provided",{status:400}); 
-    }
-
-    const user = await db.user.update({
-      where: { id: userId },
-      data: {
-        posts: {
-          update: {
-            where: { id: params?.postId },
-            data: { title, content }
-          }
-        }
+      if (!userId) {
+          return NextResponse.json("userId not provided", { status: 400 });
       }
-    });
 
-    return  NextResponse.json("post updated",{status:200}); 
+      if (!params?.postId) {
+          return NextResponse.json("postId not provided", { status: 400 });
+      }
+
+      const user = await db.user.update({
+          where: { id: userId },
+          data: {
+              posts: {
+                  update: {
+                      where: { id: params?.postId },
+                      data: { title, content }
+                  }
+              }
+          }
+      });
+
+      return NextResponse.json("post updated", { status: 200 });
   } catch (error) {
-    console.error('Error updating post:', error);
-    return { error: 'Internal Server Error', status: 500 };
+      console.error('Error updating post:', error);
+      return Response.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+
 
 // DELETE endpoint for deleting a post
 export async function DELETE(req: Request, { params }: { params: { postId: string } }) {
