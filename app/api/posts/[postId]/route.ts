@@ -46,7 +46,9 @@ export async function PATCH(req: Request, { params }: { params: { postId: string
 }
 
  
-export async function DELETE({ params }: { params: { postId: string } }) {
+export async function DELETE(eq: Request, 
+  res:NextApiResponse,
+  { params }: { params: { postId: string } }) {
   try {
     if (!params?.postId) {
       return  NextResponse.json("postId not provided",{status:400}); 
@@ -62,7 +64,9 @@ export async function DELETE({ params }: { params: { postId: string } }) {
 }
 
  
-export async function GET(req: Request, { params }: { params: { postId: string } }) {
+export async function GET(req: Request,
+  res:NextApiResponse,
+  { params }: { params: { postId: string } }) {
  
     const sessionUser = await auth();
     if (!sessionUser) {
