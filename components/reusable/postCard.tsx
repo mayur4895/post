@@ -132,7 +132,7 @@ const Post = ({ post, userId }: PostProps) => {
         </CardHeader>
  
         <CardContent className=' w-full'>
-          <img src={"/postimg.jpg"} alt='postImg'    className=' md:object-contain object-center lg:object-cover  w-auto lg:w-full h-[400px]'/>
+          <img src={"/postimg.jpg"} alt='postImg'    className=' md:object-contain object-center lg:object-cover  w-auto lg:w-full  h-[300px] md::h-[400px]'/>
           <p>{post.content}</p>
         </CardContent>
  

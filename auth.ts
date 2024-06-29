@@ -44,23 +44,23 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
   async session({token,session}){
      if(token.sub && session.user ){ 
      session.user.id = token.sub; 
-   
+     session.user.username = token.username;
+     
    
   }
-
-
-  if(token.role && session.user ){ 
-  
- }
+ 
   return session
 },
 
 async jwt({token}){ 
    if(!token.sub) return token; 
+ 
    const userExist = await getUserById(token.sub); 
    if(!userExist) return token; 
    token.username = userExist.username;  
    token.email = userExist.email 
+   console.log(token);
+   
    return token;  
    }
   },
