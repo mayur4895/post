@@ -1,72 +1,54 @@
-import NextAuth from "next-auth" 
-import authConfig from "./auth.config"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { db } from "./lib/db" 
-import { PrismaClient } from "@prisma/client"
-import { getUserById } from "./app/data/user"
- 
-const prisma = new PrismaClient()
- 
-export const { handlers, auth ,signIn,signOut} = NextAuth({
-   pages:{
-      signIn:"/auth/login",
-      error:"/auth/error",
-      signOut:"/"
-       
-   },
+import NextAuth from "next-auth";
+import authConfig from "./auth.config";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
+import { getUserById } from "./app/data/user";
 
-   events:{
-      async linkAccount({user}){
-         await db.user.update({
-            where:{id:user.id},
-            data:{emailVerified:new Date()}
-         })
-      }
-   },
-  callbacks:{
+const prisma = new PrismaClient();
 
-
-   async signIn({user,account}){
-
-      if(account?.provider !== "credentials") return true; 
-       if(!user.id){
-         return false;
-       }
-      const ExistingUser = await getUserById(user.id); 
-
-      if(!ExistingUser) return false;
-       
-      return true;
-
- 
-   },
-
-  async session({token,session}){
-     if(token.sub && session.user ){ 
-     session.user.id = token.sub; 
-     session.user.username = token.username as string;
-     
-   
-  }
- 
-  return session
-},
-
-async jwt({token}){ 
-   if(!token.sub) return token; 
- 
-   const userExist = await getUserById(token.sub); 
-   if(!userExist) return token; 
-   token.username = userExist.username as string;  
-   token.email = userExist.email 
-   console.log(token);
-   
-   return token;  
-   }
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+    signOut: "/",
   },
 
-  adapter: PrismaAdapter(prisma), 
-  session: { strategy: "jwt" },
+  callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider !== "credentials") return true;
+      if (!user.id) return false;
+
+      const existingUser = await getUserById(user.id);
+      if (!existingUser) return false;
+
+      return true;
+    },
+
+    async session({ token, session }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+   
+        session.user.email = token.email as string; 
+      }
+      return session;
+    },
+
+    async jwt({ token }) {
+      if (token && typeof token === 'object' && token.sub) {
+        const userExist = await getUserById(token.sub);
+        if (userExist) {
+          token.email = userExist.email;  
+          token.username = userExist.username;  
+        }
+      }
+      return token;
+    },
+  },
+
+  adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "jwt",
+  },
   ...authConfig,
-  secret:process.env.AUTH_SECRET
-})
+  secret: process.env.AUTH_SECRET,
+});

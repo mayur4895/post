@@ -59,8 +59,7 @@ const Navbar = () => {
   <Sheet>
   <SheetTrigger className='lg:hidden block'><CgMenuRight size={22}/></SheetTrigger>
   <SheetContent>
-    <SheetHeader className=' text-start flex flex-col'>
-     <SheetTitle>{currentUser.username }</SheetTitle>
+    <SheetHeader className=' text-start flex flex-col'> 
       <SheetDescription> 
         {currentUser?.email}
       </SheetDescription>
