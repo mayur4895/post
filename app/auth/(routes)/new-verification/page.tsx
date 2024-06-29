@@ -23,7 +23,7 @@ const NewVerificationForm = () => {
 const  {toast} = useToast();
  
  const searchParam = useSearchParams();
-const token = searchParam.get("token")
+const token = searchParam?.get("token")
 const [Error,setError] = useState("");
 
 const [Success,setSuccess] = useState("");

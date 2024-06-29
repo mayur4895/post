@@ -37,7 +37,7 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
     if(passwordResetToken.email && passwordResetToken.token) {
         
   return  {success: "refirect to password reset" ,data:{
-    reset_password :`http://localhost:3000/auth/new-password?token=${passwordResetToken.token}`  , 
+    reset_password :`https://post-gules.vercel.app/auth/new-password?token=${passwordResetToken.token}`  , 
     email: passwordResetToken.email ,
   } 
   }
