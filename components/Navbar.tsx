@@ -30,8 +30,8 @@ import { redirect } from 'next/navigation';
 const Navbar = () => {
   const {onOpen,type} = useModal();
   const currentUser = CurrentUser();
-  if(!currentUser){
-  redirect("/auth/login")
+  if(!currentUser ){
+  return redirect("/auth/login")
   }
  
   return (
@@ -60,7 +60,7 @@ const Navbar = () => {
   <SheetTrigger className='lg:hidden block'><CgMenuRight size={22}/></SheetTrigger>
   <SheetContent>
     <SheetHeader className=' text-start flex flex-col'>
-      <SheetTitle>{currentUser.username}</SheetTitle>
+     <SheetTitle>{currentUser.username }</SheetTitle>
       <SheetDescription> 
         {currentUser?.email}
       </SheetDescription>
