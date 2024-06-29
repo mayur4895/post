@@ -57,7 +57,7 @@ async jwt({token}){
  
    const userExist = await getUserById(token.sub); 
    if(!userExist) return token; 
-   token.username = userExist.username;  
+   token.username = userExist.username as string;  
    token.email = userExist.email 
    console.log(token);
    
